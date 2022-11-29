@@ -37,13 +37,6 @@ enum glyph_attribute {
 	ATTR_BOXDRAW    = 1 << 11,
 	ATTR_LIGA       = 1 << 12,
 	ATTR_BOLD_FAINT = ATTR_BOLD | ATTR_FAINT,
-	ATTR_DIRTYUNDERLINE = 1 << 15,
-};
-
-enum drawing_mode {
-    DRAW_NONE = 0,
-    DRAW_BG = 1 << 0,
-    DRAW_FG = 1 << 1,
 };
 
 enum selection_mode {
@@ -75,8 +68,6 @@ typedef struct {
 	ushort mode;      /* attribute flags */
 	uint32_t fg;      /* foreground  */
 	uint32_t bg;      /* background  */
-	int ustyle;	  /* underline style */
-	int ucolor[3];    /* underline color */
 } Glyph;
 
 typedef Glyph *Line;
@@ -91,7 +82,12 @@ typedef union {
 
 void die(const char *, ...);
 void redraw(void);
+void tfulldirt(void);
 void draw(void);
+
+void externalpipe(const Arg *);
+void kscrolldown(const Arg *);
+void kscrollup(const Arg *);
 
 void printscreen(const Arg *);
 void printsel(const Arg *);
@@ -143,6 +139,8 @@ extern char *termname;
 extern unsigned int tabspaces;
 extern unsigned int defaultfg;
 extern unsigned int defaultbg;
-extern unsigned int defaultcs;
 extern float alpha;
+extern float alphaUnfocus;
 extern const int boxdraw, boxdraw_bold, boxdraw_braille;
+extern unsigned int defaultcs;
+
